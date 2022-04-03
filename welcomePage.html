@@ -1,0 +1,173 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="SonyPoly.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="welcomeStyle.css" rel="stylesheet" />
+    <script>
+
+
+        function isStorage() {
+            if (localStorage["sonyPoly"] == null)
+                $(".continue[name=sonyPoly]").hide();
+            if (localStorage["monoPort"] == null)
+                $(".continue[name=monoPort]").hide();
+        }
+
+
+        function isValid() {
+            player1validation = document.getElementById("playerName1").value;
+            player2validation = document.getElementById("playerName2").value;
+            budgetvalidation = document.getElementById("startingBudget").value;
+            if (player1validation == "Enter Name" || player2validation == "Enter Name" || budgetvalidation == "") {
+                $(".startGame").prop('disabled', 'disabled');
+                $("#invalidInput").show();
+                return false;
+            }
+            else {
+                $(".startGame").prop('disabled', false);
+                return true;
+            }
+        }
+
+        $(document).ready(init);
+
+
+        function init() {
+            var playersArr = [];
+            $("#invalidInput").hide();
+
+
+            $("#myForm").css("transition", "all .60s ")
+
+            $("[type=button]").hover(function () {
+                $(this).css({ "background": "url('sonypolyimages/dollarsBackground.jpg')", "font-weight":"bold","font-size":"24px","transition": "color .30s linear" })
+            });
+
+            $("[type=button]").mouseleave(function () {
+                $(this).removeAttr("style");
+            });
+
+            $(".startGame").hover(function () {
+                $(this).css({ "background": "url('sonypolyimages/dollarsBackground.jpg')", "font-weight": "bold", "font-size": "32px", "transition": "color .30s linear" })
+            });
+
+            $(".startGame").mouseleave(function () {
+                $(this).removeAttr("style");
+            });
+            
+
+            function isValid() {
+                player1validation = document.getElementById("playerName1").value;
+                player2validation = document.getElementById("playerName2").value;
+                budgetvalidation = document.getElementById("startingBudget").value;
+                if (player1validation == "Enter Name" || player2validation == "Enter Name" || budgetvalidation == "") {
+                    $("#invalidInput").show();
+                    return false;
+                }
+                else {
+                    $(".startGame").prop('disabled', false);
+                    return true;
+                }
+            }
+
+            function storeToLS(gameType) {
+                player1 = {
+                    name: document.getElementById("playerName1").value,
+                    budget: JSON.parse(document.getElementById("startingBudget").value),
+                    station: 1,
+                    stationOwn: [],
+                    equity: 0,
+                    turn: true,
+                    isJail: false,
+                    rollCount:0,
+                    image: "monoportimages/redpiece-removebg-preview.png"
+                }
+                player2 = {
+                    name: document.getElementById("playerName2").value,
+                    budget: JSON.parse(document.getElementById("startingBudget").value),
+                    station: 1,
+                    stationOwn: [],
+                    equity: 0,
+                    turn: false,
+                    isJail: false,
+                    rollCount:0,
+                    image: "monoportimages/bluepiece-removebg-preview.png"
+                }
+                playersArr.push(player1);
+                playersArr.push(player2);
+                localStorage[gameType] = JSON.stringify(playersArr);
+            }
+
+            var gameType = null;
+
+
+            $(".continue").click(function () {
+                gameType = $(this).attr("name");
+                localStorage["dataset"] = gameType;
+                window.location.replace('Game.html');
+            });
+
+            $(".start").click(function () {
+                gameType = $(this).attr("name");
+            });
+
+            $(".startGame").click(function () {
+                valid = isValid();
+                if (valid == true) {
+                    if (localStorage[gameType] != null)
+                        localStorage.removeItem(gameType);
+                    storeToLS(gameType);
+                    localStorage["dataset"] = gameType;
+                    window.location.replace('Game.html');
+                }
+
+            });
+
+     
+
+
+        }
+
+    </script>
+</head>
+<body onload="isStorage()">
+    <div class="container">
+        <div>
+            <h1> Welcome to Monopoly </h1><!--<img src="sonypolyimages/monopolyman.png" />-->
+            <img id="welcomeGIF" src="sonypolyimages/welcomepage.gif" />
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <h2> MonoPort </h2>
+                <input class="continue" type="button" value="Continue" name="monoPort" />
+                <button class="start" type="button" data-toggle="collapse" data-target="#myForm" name="monoPort">Start new Game</button>
+            </div>
+            <div class="col-6">
+                <h2> SonyPoly </h2>
+                <input type="button" class="continue" value="Continue" name="sonyPoly" />
+                <button class="start" type="button" data-toggle="collapse" data-target="#myForm" name="sonyPoly">Start new Game</button>
+            </div>
+        </div>
+        <form id="myForm" class="collapse">
+            <p> What is the first player name?</p>
+            <input type="text" id="playerName1" value="Enter Name" onclick='this.value=" "' />
+            <p> What is the second player name?</p>
+            <input type="text" id="playerName2" value="Enter Name" onclick='this.value=" "' />
+            <p> How much money do you want to start with?</p>
+            <input type="number" id="startingBudget" min="500" max="1000" step="50" />
+            <br />
+            <p id="invalidInput"> *Please enter players names, and a budget to start the game with!</p>
+            <input type="button" class="startGame" value="Start Game" />
+        </form>
+
+    </div>
+
+
+
+</body>
+</html>

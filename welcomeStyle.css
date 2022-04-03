@@ -1,0 +1,64 @@
+﻿body {
+    text-align: center;
+    min-height: 768px;
+    min-width: 1024px;
+    font-family: 'Comic Sans MS';
+    background: url(sonypolyimages/monopolyBackground.jpg);
+    background-size:cover
+}
+
+
+h1,h2 {
+    margin: 20px;
+    font-weight: bold
+}
+
+
+
+.row {
+    margin: 20px
+}
+
+input,button {
+    margin-bottom: 20px;
+    border: 4px solid black;
+    border-radius: 10px;
+    padding: 10px;
+    background-color:aquamarine;
+    color:black;
+    font-size:20px
+
+}
+
+button:hover, .continue:hover {
+    -webkit-text-stroke: 0.6px white;
+}
+
+
+
+p {
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
+.startGame {
+    width: 50%;
+    font-size: 30px;
+}
+
+    .startGame:hover {
+        -webkit-text-stroke: 1.5px white;
+    }
+
+#invalidInput {
+    font-size: 16px;
+    color:red;
+
+}
+
+
+#welcomeGIF {
+    border-radius:10px
+}
+
+    
